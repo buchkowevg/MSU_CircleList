@@ -1,6 +1,5 @@
 #ifndef CIRCLE_LIST_NODE_H
 #define CIRCLE_LIST_NODE_H
-
 template <typename T>
 class CircleList;
 
@@ -16,6 +15,7 @@ public:
 private:
     T data; //templatized data stored in node
     CircleListNode* nextPtr; //pointer to the next node in list
+    CircleListNode* prevPtr;
 };
 
 template <typename T>
@@ -23,6 +23,7 @@ CircleListNode<T>::CircleListNode(T dataIn)
 {
     data = dataIn; //stores data in node
     nextPtr = 0; //initializes point to next node to null
+    prevPtr = 0;
 }
 
 template <typename T>

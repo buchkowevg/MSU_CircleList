@@ -1,7 +1,9 @@
 #ifndef CIRCLELIST_H
 #define CIRCLELIST_H
 #include <iostream>
+#include <stdexcept>
 using namespace std;
+
 #include "circlelistnode.h"
 template <typename T>
 class CircleList
@@ -11,8 +13,8 @@ public:
     ~CircleList();
     void insert(T);
     void print() const;
-    void rotateRight();
-    void rotateLeft();
+    void rotateRight(unsigned int = 1);
+    void rotateLeft(unsigned int = 1);
     T get_top();
     T get_at(int);
     T searchmax();
@@ -69,11 +71,12 @@ void CircleList<T>::insert(T dataIn)
     }else //if node(s) exist in list insert additional object before the first
     {
         CircleListNode<T> * newPtr = new CircleListNode<T>(dataIn);
-        newPtr->nextPtr = currPtr;
-        newPtr->prevPtr = currPtr->prevPtr;
-        currPtr->prevPtr->nextPtr = newPtr;
-        currPtr->prevPtr = newPtr;
-        currPtr = newPtr; //the pointer for the new node is now the starting node
+        newPtr->nextPtr = currPtr->nextPtr;
+        newPtr->prevPtr = currPtr;
+        currPtr->nextPtr->prevPtr = newPtr;
+        currPtr->nextPtr = newPtr;
+        
+        
     }
 }
 
@@ -176,12 +179,26 @@ T CircleList<T>::searchmax()
     do
     {
         if(currentPtr->data > tempPtr->data) tempPtr = currentPtr;
-        currentPtr = currentPtr->nextPtr; //moves to next node in list
+        currentPtr = currentPtr->nextPtr; 
     }while(currentPtr != currPtr);
     res = tempPtr->data;
     currPtr = tempPtr;
     get_top();
     currPtr = currPtr->prevPtr;
     return res;
+}
+template <typename T>
+void CircleList<T>::rotateLeft(unsigned int r)
+{
+    if(isEmpty()) throw runtime_error("List is empty\n");
+    for(unsigned int i = 0; i < r; i++)
+        currPtr = currPtr->prevPtr;
+}
+template <typename T>
+void CircleList<T>::rotateRight(unsigned int r)
+{
+    if(isEmpty()) throw runtime_error("List is empty\n");
+    for(unsigned int i = 0; i < r; i++)
+        currPtr = currPtr->nextPtr;
 }
 #endif // CIRCLELIST_H

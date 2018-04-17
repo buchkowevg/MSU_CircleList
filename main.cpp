@@ -7,11 +7,15 @@ int main()
     try
     {
         CircleList<int> list;
-        list.insert(3);
+        list.insert(0);
+        list.insert(4);
+        list.insert(100);
+        list.insert(5);        
         list.print();
-        cout << list.searchmax() << endl;
+        list.rotateRight();
         list.print();
-        list.searchmax();
+        list.rotateLeft(2);
+        list.print();
     }
     catch(const runtime_error &ex)
     {
